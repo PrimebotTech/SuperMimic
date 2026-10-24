@@ -1,0 +1,92 @@
+[build-system]
+requires = ["uv_build>=0.8.19,<0.9.0"]
+build-backend = "uv_build"
+
+[project]
+name = "supermimic-q1"
+version = "0.1.0"
+description = "Independent paper-based SuperMimic implementation for Q1 V2"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "torch==2.7.0",
+  "mujoco==3.6.0",
+  "mujoco-warp @ git+https://github.com/google-deepmind/mujoco_warp@875c4caf06d71b12b2036c327e7a07ce08a78b9a",
+  "warp-lang==1.12.0",
+  "numpy>=2.2,<3",
+  "pillow>=11,<14",
+  "tyro>=1.0",
+  "tensorboard>=2.20",
+]
+
+[project.optional-dependencies]
+# Importing pickled corpora needs an unpickler; training itself does not.
+pkl = ["joblib>=1.4"]
+
+[project.scripts]
+supermimic = "supermimic.cli:main"
+supermimic-launch = "supermimic.launch:main"
+supermimic-train = "supermimic.train:main"
+supermimic-eval = "supermimic.evaluate:main"
+supermimic-play = "supermimic.play:main"
+supermimic-resample = "supermimic.resample:main"
+supermimic-import-pkl = "supermimic.import_pkl:main"
+supermimic-index = "supermimic.library_index:main"
+supermimic-preflight = "supermimic.preflight:main"
+supermimic-filter = "supermimic.filter_motions:main"
+supermimic-diagnose = "supermimic.diagnostics:main"
+supermimic-record = "supermimic.record:main"
+supermimic-watch-videos = "supermimic.video_watcher:cli"
+supermimic-monitor = "supermimic.training_monitor:cli"
+supermimic-reshard = "supermimic.reshard:main"
+supermimic-reward-tuning = "supermimic.reward_tuning:main"
+
+[dependency-groups]
+dev = ["pytest>=9", "ruff>=0.14", "ty>=0.0.14", "pyright>=1.1.408", "joblib>=1.4"]
+
+[tool.uv]
+# Ignore upstream development-only indexes; dependencies resolve on public PyPI.
+# The MuJoCo Warp commit remains a standard direct Git requirement above.
+no-sources = true
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
+
+[tool.uv.build-backend]
+module-name = "supermimic"
+source-include = [
+  "tests/*.py",
+  "typings/**/*.pyi", "configs/*.example.toml",
+  "scripts/audit_q1_reward_tuning.py", "scripts/data/*.py",
+  "tools/*.py", "tools/*.example.json",
+  "THIRD_PARTY.md", "CITATION.cff",
+  "Makefile", ".github/workflows/*.yml", ".gitignore", "uv.lock",
+]
+
+[tool.ruff]
+line-length = 88
+indent-width = 2
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+
+[tool.pyright]
+pythonVersion = "3.13"
+include = ["src", "tests", "scripts", "tools"]
+stubPath = "typings"
+venvPath = "."
+venv = ".venv"
+
+[tool.ty.environment]
+extra-paths = ["typings"]
+
+[tool.ty.src]
+include = ["src", "tests", "scripts", "tools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

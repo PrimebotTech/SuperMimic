@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Please cite this software and the SuperMimic paper when using this implementation."
+title: "SuperMimic-Q1: Independent Whole-Body Motion Tracking for Q1 V2"
+type: software
+version: 0.1.0
+license: MIT
+authors:
+  - name: "SuperMimic-Q1 contributors"
+abstract: >-
+  Independent research implementation of differentiable world-model and
+  short-horizon actor-critic motion tracking for Q1 V2. Paper-level tracking
+  quality and real-robot deployment are not yet demonstrated.
+keywords:
+  - humanoid robotics
+  - motion tracking
+  - world models
+  - Q1 V2

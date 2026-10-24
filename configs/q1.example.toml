@@ -1,0 +1,40 @@
+# Copy this file before editing. Paths are relative to this TOML file.
+# Counts are GLOBAL totals, split across --gpus; never multiplied by GPU count.
+[train]
+robot_xml = "../assets/q1_v2/xml/q1_v2_mc.xml"
+motion_dir = "../data/q1_motion_library"
+output_dir = "../logs/q1_long"
+motion_pattern = "*/*.npz"
+max_motions = 0
+device = "cuda:0"
+num_envs = 4096
+model_batch_size = 2048
+policy_batch_size = 4096
+iterations = 250000
+replay_steps = 1000
+model_batches = 10
+critic_epochs = 5
+critic_minibatches = 4
+learning_rate = 0.0002
+physics_timestep = 0.005
+action_scale = 0.5
+use_tn = true
+q1_reward_scaling = true
+motion_storage = "device-fp16"
+motion_memory_gb = 16.0
+compile_networks = true
+compile_collection = true
+fuse_model_loss = true
+cache_reference_heads = true
+cache_goals = true
+capture_reset = true
+runtime_checks = "per_update"
+# Original action/loss semantics; change only in a documented new phase.
+clean_policy_actions = false
+action_lag = false
+action_noise = 0.0
+normalize_policy_objective = false
+normalize_model_objective = false
+save_interval = 5000
+profile_every = 10
+collective_timeout_seconds = 1800

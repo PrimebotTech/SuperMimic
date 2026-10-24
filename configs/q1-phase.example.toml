@@ -1,0 +1,45 @@
+# Experimental NEW phase, not a strict optimizer/trajectory continuation.
+# All env/batch counts are GLOBAL totals split by --gpus.
+[train]
+robot_xml = "../assets/q1_v2/xml/q1_v2_mc.xml"
+motion_dir = "../data/q1_motion_library_filtered"
+output_dir = "../logs/q1_new_phase"
+warm_start = "../logs/q1_previous/checkpoint_30000.pt"
+warm_start_progress = true
+iterations = 250000
+motion_pattern = "*/*.npz"
+max_motions = 0
+device = "cuda:0"
+num_envs = 8192
+model_batch_size = 4096
+policy_batch_size = 4096
+replay_steps = 1000
+model_batches = 10
+critic_epochs = 5
+critic_minibatches = 4
+learning_rate = 0.0002
+physics_timestep = 0.005
+action_scale = 0.5
+use_tn = true
+q1_reward_scaling = true
+motion_storage = "device-fp16"
+motion_memory_gb = 16.0
+compile_networks = true
+compile_collection = true
+fuse_model_loss = true
+cache_reference_heads = true
+cache_goals = true
+capture_reset = true
+runtime_checks = "per_update"
+clean_policy_actions = true
+action_lag = false
+# Independent switches; normalization changes clipping/Adam trajectories.
+normalize_policy_objective = true
+normalize_model_objective = true
+# Optional single reward candidate. Set to 0.05 for a separate comparison.
+# The combined env/batch + new-semantics preset has no published timing yet.
+reward_arm_joint_weight = 0.0
+reward_arm_pd_target_weight = 0.0
+save_interval = 5000
+profile_every = 10
+collective_timeout_seconds = 1800

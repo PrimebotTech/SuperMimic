@@ -1,0 +1,37 @@
+# A NEW experiment, initialized from actor/dynamics weights only.
+# The baseline training job and checkpoint are left intact.
+# All counts are GLOBAL totals. Paths resolve relative to this TOML file.
+[train]
+robot_xml = "../assets/q1_v2/xml/q1_v2_mc.xml"
+motion_dir = "../data/q1_motion_library"
+output_dir = "../logs/q1_arm_joint_experiment"
+warm_start = "../logs/q1_long/checkpoint_25000.pt"
+motion_pattern = "*/*.npz"
+max_motions = 0
+device = "cuda:0"
+num_envs = 4096
+model_batch_size = 2048
+policy_batch_size = 4096
+iterations = 250000
+replay_steps = 1000
+model_batches = 10
+critic_epochs = 5
+critic_minibatches = 4
+learning_rate = 0.0002
+physics_timestep = 0.005
+action_scale = 0.5
+use_tn = true
+q1_reward_scaling = true
+motion_storage = "device-fp16"
+motion_memory_gb = 16.0
+compile_networks = true
+compile_collection = true
+fuse_model_loss = true
+cache_reference_heads = true
+cache_goals = true
+capture_reset = true
+save_interval = 5000
+profile_every = 10
+collective_timeout_seconds = 1800
+# Test one term first; do not automatically combine experimental candidates.
+reward_arm_joint_weight = 0.05
